@@ -1,0 +1,18 @@
+-- Replace 'YOUR_USER_ID' with your actual Roblox user ID.
+local player = game.Players:GetPlayerByUserId(YOUR_USER_ID)
+
+-- Replace 'MUSIC_ID' with the Roblox music ID you want to play.
+local musicId = "rbxassetid://MUSIC_ID"
+
+-- Create a sound object and parent it to the player's character for personal listening.
+local sound = Instance.new("Sound")
+sound.SoundId = musicId
+sound.Parent = player.Character
+
+-- Play the music.
+sound:Play()
+
+-- Stop the music when the player leaves the game.
+player.CharacterRemoving:Connect(function()
+    sound:Stop()
+end)
