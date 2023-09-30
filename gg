@@ -1,18 +1,36 @@
--- Replace 'YOUR_USER_ID' with your actual Roblox user ID.
-local player = game.Players:GetPlayerByUserId(YOUR_USER_ID)
+-- Load the Kavo UI library
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Xarkkz/Kavo-UI-Library/main/source.lua"))()
 
--- Replace 'MUSIC_ID' with the Roblox music ID you want to play.
-local musicId = "rbxassetid://MUSIC_ID"
+-- Create a window in the Kavo UI library
+local window = library.CreateWindow({
+    text = "Music Player",
+    resizable = true,
+    min_size = Vector2.new(200, 300),
+})
 
--- Create a sound object and parent it to the player's character for personal listening.
-local sound = Instance.new("Sound")
-sound.SoundId = musicId
-sound.Parent = player.Character
+-- Add a section to the window
+local section = window.CreateSection({text = "Music"})
 
--- Play the music.
-sound:Play()
+-- Add a textbox for entering the music ID
+local musicIdTextbox = section.CreateTextbox({
+    text = "Music ID",
+    placeholder = "Enter Music ID",
+})
 
--- Stop the music when the player leaves the game.
-player.CharacterRemoving:Connect(function()
-    sound:Stop()
-end)
+-- Add a button to play the music
+local playButton = section.CreateButton({text = "Play"})
+
+-- Function to play the music
+function playMusic()
+    local musicId = musicIdTextbox.text
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://" .. musicId
+    sound.Parent = game.Players.LocalPlayer.PlayerGui
+    sound:Play()
+end
+
+-- Bind the play function to the button
+playButton.BindClick(playMusic)
+
+-- Run the Kavo UI library
+library.Run()
